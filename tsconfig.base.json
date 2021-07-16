@@ -14,7 +14,10 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@demo/test": ["libs/test/src/index.ts"],
+      "@demo/workspace-executors": ["libs/workspace-executors/src/index.ts"]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }

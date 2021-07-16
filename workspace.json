@@ -1,6 +1,101 @@
 {
   "version": 2,
-  "projects": {},
+  "projects": {
+    "test": {
+      "root": "libs/test",
+      "sourceRoot": "libs/test/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/test/**/*.ts"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/test"],
+          "options": {
+            "jestConfig": "libs/test/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "build": {
+          "executor": "./dist/libs/workspace-executors:log"
+        }
+      }
+    },
+    "workspace-executors": {
+      "root": "libs/workspace-executors",
+      "sourceRoot": "libs/workspace-executors/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/workspace-executors/**/*.ts"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/workspace-executors"],
+          "options": {
+            "jestConfig": "libs/workspace-executors/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "build": {
+          "executor": "@nrwl/node:package",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/libs/workspace-executors",
+            "tsConfig": "libs/workspace-executors/tsconfig.lib.json",
+            "packageJson": "libs/workspace-executors/package.json",
+            "main": "libs/workspace-executors/src/index.ts",
+            "assets": [
+              "libs/workspace-executors/*.md",
+              {
+                "input": "./libs/workspace-executors/src",
+                "glob": "**/!(*.ts)",
+                "output": "./src"
+              },
+              {
+                "input": "./libs/workspace-executors/src",
+                "glob": "**/*.d.ts",
+                "output": "./src"
+              },
+              {
+                "input": "./libs/workspace-executors",
+                "glob": "generators.json",
+                "output": "."
+              },
+              {
+                "input": "./libs/workspace-executors",
+                "glob": "executors.json",
+                "output": "."
+              }
+            ]
+          }
+        }
+      }
+    },
+    "workspace-executors-e2e": {
+      "root": "apps\\workspace-executors-e2e",
+      "projectType": "application",
+      "sourceRoot": "apps\\workspace-executors-e2e/src",
+      "targets": {
+        "e2e": {
+          "executor": "@nrwl/nx-plugin:e2e",
+          "options": {
+            "target": "workspace-executors:build",
+            "npmPackageName": "@demo/workspace-executors",
+            "pluginOutputPath": "dist/libs/workspace-executors",
+            "jestConfig": "apps/workspace-executors-e2e/jest.config.js"
+          }
+        }
+      }
+    }
+  },
   "cli": {
     "defaultCollection": "@nrwl/workspace"
   }

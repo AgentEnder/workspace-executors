@@ -1,0 +1,10 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "executors": {
+    "log": {
+      "implementation": "./src/executors/log/executor",
+      "schema": "./src/executors/log/schema.json",
+      "description": "log executor"
+    }
+  }
+}
